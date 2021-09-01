@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../firstScreen.dart';
 
-class HomePageWidget extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    return HomePageWidgetState();
-  }
-}
+class HomePageWidget extends StatelessWidget{
 
 
-var funcLists = [];
 
-class HomePageWidgetState extends State<HomePageWidget>{
+  var funcLists = [];
 
-  @override
-  void initState() {
-    super.initState();
 
-    initData();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   void initData() {
     funcLists.add(
@@ -58,122 +43,239 @@ class HomePageWidgetState extends State<HomePageWidget>{
 
     print(funcLists);
 
-    setState(() {
-
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("首页"),
-        ),
-        body: TextFileWidget());
-
-//     return Scaffold(
-//         appBar: new AppBar(
-// //      centerTitle: true,
-//           backgroundColor: Colors.black,
-//           title: TextFileWidget(),
-//           automaticallyImplyLeading: false,
-//         ));
-  }
-
-}
-/*顶部搜索*/
-class TextFileWidget extends StatelessWidget{
-
-  Widget buildTextField(){
-    //theme设置局部主题
-    return TextField(
-      cursorColor: Colors.black,//设置光标
-      //textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        //输入框decoration属性
-        //contentPadding: const EdgeInsets.symmetric(vertical: 1.0,horizontal: 1.0),
-          contentPadding: EdgeInsets.only(left: 0,right: 24,top: 0,bottom: 15),
-          border: InputBorder.none,
-          // icon: ImageIcon(
-          // AssetImage("image/search.png")
-          // ),
-          icon: Icon(Icons.search),
-          hintText: "输入搜索商品",
-          hintStyle: TextStyle(fontSize: 14,color: Colors.grey)),
-      style: TextStyle(fontSize: 14,color: Colors.black),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget editView(){
+    //   Widget listView() {
+    //     return ListView.builder(
+      //     padding: const EdgeInsets.all(15.0),
+      //     itemCount: funcLists.length,
+      //     shrinkWrap: true,
+      //     itemBuilder: (context, index) {
+      //       var func = funcLists[index];
+      //       return ListTile(
+      //         contentPadding: const EdgeInsets.all(10.0),
+      //         title: Text(
+      //           "${func["name"]}",
+      //           style: TextStyle(
+      //             fontSize: 20,
+      //             color: Colors.black,
+      //           ),
+      //         ),
+      //         subtitle: Text(
+      //           "${func["desc"]}",
+      //           style: TextStyle(
+      //             fontSize: 15,
+      //             color: Colors.grey,
+      //           ),
+      //         ),
+      //         onTap: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) {
+      //               return FirstScreen();
+      //             }),
+      //           );
+      //         },
+      //       );
+      //     },
+      //   );
+      // }
+    /* 首页顶部搜索栏 */
+    var cancleView = Text("广州");
+     Widget buildTextField() {
+      //theme设置局部主题
+      return TextField(
+        cursorColor: Colors.black, //设置光标
+        //textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          //输入框decoration属性
+          //contentPadding: const EdgeInsets.symmetric(vertical: 1.0,horizontal: 1.0),
+            contentPadding: EdgeInsets.only(
+                left: 0, right: 24, top: 0, bottom: 15),
+            border: InputBorder.none,
+            // icon: ImageIcon(
+            // AssetImage("image/search.png")
+            // ),
+            icon: Icon(Icons.search),
+            hintText: "输入搜索商品",
+            hintStyle: TextStyle(fontSize: 14, color: Colors.grey)),
+        style: TextStyle(fontSize: 14, color: Colors.black),
+      );
+    }
+    Widget toptitle_editView() {
       return Container(
         //修饰黑色背景与圆角
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey,width: 1.0),//灰色一层边框
+            //border: Border.all(color: Colors.grey, width: 1.0), //灰色一层边框
             color: Color.fromRGBO(246, 246, 246, 1),
             borderRadius: BorderRadius.all(Radius.circular(15.0))
         ),
         alignment: Alignment.center,
         height: 36,
-        margin: EdgeInsets.only(top: 10.0,right: 10.0),
+        margin: EdgeInsets.only(top: 10.0, right: 10.0),
         padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
         child: buildTextField(),
       );
     }
-
-    var cancleView = Text("广州");
-
-    Widget listView(){
-      return ListView.builder(
-        padding: const EdgeInsets.all(15.0),
-        itemCount: funcLists.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          var func = funcLists[index];
-          return ListTile(
-            contentPadding: const EdgeInsets.all(10.0),
-            title: Text(
-              "${func["name"]}",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-              ),
+    /* 首页热搜 */
+    Widget hot_words = new Container(
+      margin: EdgeInsets.only(left: 10.0,right: 10.0,top: 8.0),
+      child: new Row(
+        children: [
+          Text('热搜：',style: TextStyle(color: Colors.grey)),
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              //border: Border.all(color: Colors.grey,width: 0.5),
+              color: Color.fromRGBO(246, 246, 246, 1),
+              borderRadius: BorderRadius.circular(50.0)
             ),
-            subtitle: Text(
-              "${func["desc"]}",
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.grey,
-              ),
+            child: Text('肿瘤',style: TextStyle(color: Colors.grey)),
+            width: 50.0,
+            height: 25.0,
+          ),Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              //border: Border.all(color: Colors.grey,width: 0.5),
+                color: Color.fromRGBO(246, 246, 246, 1),
+                borderRadius: BorderRadius.circular(50.0)
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return FirstScreen();
-                }),
-              );
-            },
-          );
-        },
-      );
+            child: Text('健康',style: TextStyle(color: Colors.grey)),
+            width: 50.0,
+            height: 25.0,
+          ),Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              //border: Border.all(color: Colors.grey,width: 0.5),
+                color: Color.fromRGBO(246, 246, 246, 1),
+                borderRadius: BorderRadius.circular(50.0)
+            ),
+            child: Text('体检',style: TextStyle(color: Colors.grey),),
+            width: 50.0,
+            height: 25.0,
+          ),
+        ],
+      ),
+    );
+    /* 首页轮播 */
+    Widget _swiperBuilder(BuildContext context, int index) {
+      return (Image.network(
+        "http://via.placeholder.com/350x150",
+        fit: BoxFit.fill,
+      ));
     }
+    Widget swiper = Container(
+      margin: EdgeInsets.all(10.0),
+      width: MediaQuery.of(context).size.width,
+      height: 200.0,
+      child: Swiper(
+        itemBuilder: _swiperBuilder,
+        itemCount: 3,
+        pagination: new SwiperPagination(
+            builder: DotSwiperPaginationBuilder(
+              color: Colors.black54,
+              activeColor: Colors.white,
+            )),
+        control: new SwiperControl(),
+        scrollDirection: Axis.horizontal,
+        autoplay: true,
+        onTap: (index) => print('点击了第$index个'),
+      ));
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    /* 首页预约与报告 */
+    Widget appointment = Container(
+      margin: EdgeInsets.all(10.0),
+      padding: EdgeInsets.only(top: 15.0,left: 8.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color.fromRGBO(226, 226, 226, 1),width: 0.5),
+        borderRadius: BorderRadius.circular(5.0)
+      ),
+      width: 160,
+      height: 100,
+      child: Column(
+          children: [
+            Row(
+              children: [
+                Text('预约',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+                Text('>',style: TextStyle(fontSize: 20,),),
+              ],
+            ),
+            Text('上门/检测服务',style: TextStyle(fontSize: 12.0),)
+          ],crossAxisAlignment: CrossAxisAlignment.start,
+      ),
+    );
+    Widget report = Container(
+      margin: EdgeInsets.all(10.0),
+      padding: EdgeInsets.only(top: 15.0,left: 8.0),
+      decoration: BoxDecoration(
+          border: Border.all(color: Color.fromRGBO(226, 226, 226, 1),width: 0.5),
+          borderRadius: BorderRadius.circular(5.0)
+      ),
+      width: 160,
+      height: 100,
+      child: Column(
+        children: [
+          Row(
             children: [
-              Padding(padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0),
-                child: cancleView,),
-              Expanded(child: editView(),flex: 1)
-            ]
+              Text('报告',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+              Text('>',style: TextStyle(fontSize: 20,),),
+            ],
+          ),
+          Text('健康查阅/解读',style: TextStyle(fontSize: 12.0),)
+        ],crossAxisAlignment: CrossAxisAlignment.start,
+      ),
+    );
+
+    /* 广告图 */
+    Widget advertisement = Container(
+      margin: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+          border: Border.all(color: Color.fromRGBO(226, 226, 226, 1),width: 0.5),
+          borderRadius: BorderRadius.circular(5.0)
+      ),
+      width: double.infinity,
+      height: 100,
+    );
+
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: Text("首页"),
+      // ),
+      backgroundColor: Colors.white,
+      // 外层添加一个手势，用于点击空白部分，回收键盘
+      body: new GestureDetector(
+        onTap: () {
+          // 点击空白区域，回收键盘
+          print("点击了空白区域");
+          //provider.focusNodePassWord.unfocus();
+          //provider.focusNodeUserName.unfocus();
+        },
+        child: new ListView(
+          children: <Widget>[
+             //new SizedBox(height: 60,),
+            /*顶部搜索*/
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Padding(padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0), child: cancleView,),
+               Expanded(child: toptitle_editView(),flex: 1),
+             ]
+            ),
+            hot_words,
+            swiper,
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              appointment,
+              report
+            ],),
+            advertisement,
+          ],
         ),
-        Expanded(child: listView(),flex: 1)
-      ],
+      ),
     );
   }
-
 }

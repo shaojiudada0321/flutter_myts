@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myts/viewModel/login_view_model.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:provider/provider.dart';
 
 import 'index.dart';
@@ -104,7 +105,7 @@ class LoginWidget extends StatelessWidget{
               //设置键盘类型
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: "用户名/手机号/邮箱",
+                labelText: "手机号",
                 hintText: "请输入手机号码",
                 prefixIcon: Icon(Icons.phone_iphone),
                 //尾部添加清除按钮
@@ -260,25 +261,13 @@ class LoginWidget extends StatelessWidget{
                 ),
                 iconSize: 40.0,
                 onPressed: () {
-
+                  //sendWeChatAuth(scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
+                  sendAuth(scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
+                      .then((data) {
+                    print("拉取微信用户信息：" + data.toString());
+                  });
                 },
               ),
-              // IconButton(
-              //   color: Colors.green[200],
-              //   icon: Icon(FontAwesomeIcons.facebook),
-              //   iconSize: 40.0,
-              //   onPressed: (){
-              //
-              //   },
-              // ),
-              // IconButton(
-              //   color: Colors.green[200],
-              //   icon: Icon(FontAwesomeIcons.qq),
-              //   iconSize: 40.0,
-              //   onPressed: (){
-              //
-              //   },
-              // )
             ],
           )
         ],
@@ -310,36 +299,7 @@ class LoginWidget extends StatelessWidget{
         ),
       ),
     );
-  // @override
-  // Widget build(BuildContext context) {
-  //   final provider = Provider.of<LoginViewModel>(context);
-  //   return Scaffold(
-  //     body: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: <Widget>[
-  //         TextField(
-  //           controller: provider.usernameController,
-  //           decoration: InputDecoration(labelText: "username"),
-  //         ),
-  //         TextField(
-  //           controller: provider.passwordController,
-  //           decoration: InputDecoration(labelText: "password"),
-  //         ),
-  //         RaisedButton(
-  //           onPressed: provider.login,
-  //
-  //           /// 根据 state 的值，按钮显示不同内容。
-  //           child: provider.state == 0
-  //               ? Text("login")
-  //               : provider.state == 1
-  //               ? CircularProgressIndicator()
-  //               : provider.state == 2
-  //               ? loginSuccess(context)
-  //               : Icon(Icons.cancel),
-  //         ),
-  //       ],
-  //     ),
-  //   );
+
   }
 
 

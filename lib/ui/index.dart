@@ -31,14 +31,14 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.business_center),
-      title: Text('热销'),
+      title: Text('商城'),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.message),
-      title: Text('说健康'),
+      icon: Icon(Icons.local_grocery_store),
+      title: Text('购物车'),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.mood),
+      icon: Icon(Icons.perm_identity),
       title: Text('我的'),
     ),
   ];

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myts/net/api.dart';
+import 'package:flutter_myts/services/custom_navigator_observer.dart';
+import 'package:flutter_myts/ui/index.dart';
+
+import '../main.dart';
 
 class LoginViewModel with ChangeNotifier{
 
@@ -34,21 +38,15 @@ class LoginViewModel with ChangeNotifier{
     };
 
     /// 不为 0 说明上一条请求未完成，直接退出
-    if (state != 0) return;
+    //if (state != 0) return;
 
     /// 开始请求，state 赋值为 1， 并通知监听者
     /// 如果用rxDart插件，可作为doOnListen参数的函数体
-    state = 1;
-    notifyListeners();
+    //state = 1;
+    //notifyListeners();
 
     _model.login(data)
-
-    /// rxDart 插件
-//        .doOnListen(() {
-//      state = 1;
-//      notifyListeners();
-//    })
-        .listen((v) {
+      .listen((v) {
       if (v != 0) {
         /// 返回值不为0，请求失败
         state = 3;
@@ -59,13 +57,18 @@ class LoginViewModel with ChangeNotifier{
         });
       } else {
         /// 返回值为0，请求成功
-        state = 2;
-        notifyListeners();
-        Future.delayed(Duration(seconds: 1), () {
-          state = 0;
-          notifyListeners();
-        });
+        loginSuccess(navigatorKey.currentState!.overlay!.context);
       }
+    });
+  }
+  loginSuccess(context){
+    Future.delayed(Duration(microseconds: 0), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return BottomNavigationWidget();
+        }),
+      );
     });
   }
 }

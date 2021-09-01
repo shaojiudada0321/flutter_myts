@@ -2,16 +2,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myts/app/service_locator.dart';
 import 'package:flutter_myts/services/navigate_service.dart';
+import 'package:fluwx/fluwx.dart';
 import 'package:provider/provider.dart';
 import 'open_service.dart';
+import 'services/custom_navigator_observer.dart';
 import 'ui/index.dart';
 import 'ui/login.dart';
 import 'ui/login_one.dart';
 import 'viewModel/login_view_model.dart';
 void main() {
-  //setupLocator();//容器初始化
   runApp(MyApp());
+  //setupLocator();//容器初始化
+  //Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
+  //registerWxApi(appId: "wx6f384dc444fe2ca4",universalLink: null);
+  initWX();
 }
+void initWX() async{
+  await registerWxApi(
+      appId:"wx6f384dc444fe2ca4",
+      doOnAndroid: true,
+      doOnIOS: true,
+      universalLink:null
+
+  );
+}
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -31,16 +46,29 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      navigatorKey: navigatorKey,
+      //navigatorObservers: [CustomNavigatorObserver()],
       //navigatorKey: getIt<NavigateService>().key,//依赖注入
       //routes: {'/ErrorScreen': (_)=> ErrorScreen()},
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       //home: openService(),
-      //home: BottomNavigationWidget(),
+      home: BottomNavigationWidget(),
       //home: LoginPage(),
-      home: ChangeNotifierProvider(
-        create: (_) => LoginViewModel(),
-        child: LoginWidget(),
-      ),
+      // home: ChangeNotifierProvider(
+      //   create: (_) => LoginViewModel(),
+      //   child: LoginWidget(),
+      // ),
+    );
+  }
+}
+
+class ErrorScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      color: Colors.red,
+      child: Text('Error'),
     );
   }
 }
@@ -129,3 +157,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+// void initWX() async{
+//   await fluwx.registerWxApi(
+//       appId:"xxxxxxxxxx",
+//       doOnAndroid: true,
+//       doOnIOS: true,
+//       universalLink:"https://www.kxxxxxxx/"
+//
+//   );
+//   var result = await fluwx.isWeChatInstalled();
+//   print("is installed $result");
+// }
