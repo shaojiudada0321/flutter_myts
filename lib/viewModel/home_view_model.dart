@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myts/common/view_state.dart';
+import 'package:flutter_myts/net/api.dart';
 
-import '../firstScreen.dart';
+import 'base_view_model.dart';
 
-// 这里我们预留动态更新页面功能，使用 StatefulWidget
-class FMHomeVC extends StatefulWidget {
-  @override
-  FMHomeState createState() => FMHomeState();
-}
+class HomeViewModel extends BaseModel{
 
-class FMHomeState extends State<FMHomeVC> {
+
+  HomeViewModel({Api api}) : super(api: api);
+
   var funcLists = [];
 
-  @override
-  void initState() {
-    super.initState();
+  Future<void> initData() async {
 
-    initData();
-  }
+    print('加载首页数据...');
+    setState(ViewState.Busy);
 
-  void initData() {
     funcLists.add(
         {"name": "基础组件", "desc": "在构建您的第一个Flutter应用程序之前，您绝对需要了解这些widget。"});
     funcLists.add({
@@ -50,57 +47,8 @@ class FMHomeState extends State<FMHomeVC> {
 
     print(funcLists);
 
-    setState(() {
-
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-
-    return Container(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
-          title: Text("Widgets 目录"),
-        ),
-        body: Center(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(15.0),
-            itemCount: funcLists.length,
-            itemBuilder: (context, index) {
-              var func = funcLists[index];
-              return ListTile(
-                contentPadding: const EdgeInsets.all(10.0),
-                title: Text(
-                  "${func["name"]}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-                subtitle: Text(
-                  "${func["desc"]}",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return FirstScreen();
-                    }),
-                  );
-                },
-              );
-            },
-          ),
-        ),
-      ),
-    );
+    await Future.delayed(Duration(seconds: 2));
+    setState(ViewState.Idle);
+    print('加载首页数据完成');
   }
 }

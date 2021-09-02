@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myts/common/view_state.dart';
 import 'package:flutter_myts/viewModel/login_view_model.dart';
 import 'package:fluwx/fluwx.dart';
 import 'package:provider/provider.dart';
 
+import 'base_view.dart';
 import 'index.dart';
 
 class LoginWidget extends StatelessWidget{
@@ -25,7 +27,7 @@ class LoginWidget extends StatelessWidget{
   /**
    * 验证用户名
    */
-  String? validateUserName(value){
+  String validateUserName(value){
     // 正则匹配手机号
     RegExp exp = RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
     if (value.isEmpty) {
@@ -39,7 +41,7 @@ class LoginWidget extends StatelessWidget{
   /**
    * 验证密码
    */
-  String? validatePassWord(value){
+  String validatePassWord(value){
     if (value.isEmpty) {
       return '密码不能为空';
     }else if(value.trim().length<6 || value.trim().length>18){
@@ -51,7 +53,24 @@ class LoginWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    final provider = Provider.of<LoginViewModel>(context);
+    //final provider = Provider.of<HomeViewModel>(context);
+
+    return BaseView<LoginViewModel>(
+      onModelReady: (model) async {
+        //model.initData();
+      },
+      model: LoginViewModel(api: Provider.of(context)),
+      builder: (context, model, child) => Scaffold(
+        // backgroundColor: Color(0xFFF5F5F5),
+        // appBar: AppBar(
+        //   title: Text('首页'),
+        // ),
+        body: _buildBody(context, model),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, LoginViewModel model) {
 
     // logo 图片区域
     Widget logoImageArea = new Container(
@@ -100,8 +119,8 @@ class LoginWidget extends StatelessWidget{
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             new TextFormField(
-              controller: provider.usernameController,
-              focusNode: provider.focusNodeUserName,
+              controller: model.usernameController,
+              focusNode: model.focusNodeUserName,
               //设置键盘类型
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
@@ -124,8 +143,8 @@ class LoginWidget extends StatelessWidget{
               //保存数据
             ),
             new TextFormField(
-              controller: provider.passwordController,
-              focusNode: provider.focusNodePassWord,
+              controller: model.passwordController,
+              focusNode: model.focusNodePassWord,
               decoration: InputDecoration(
                   labelText: "密 码",
                   hintText: "请输入密码",
@@ -157,18 +176,18 @@ class LoginWidget extends StatelessWidget{
       margin: EdgeInsets.only(left: 20, right: 20),
       height: 45.0,
       child: new RaisedButton(
-        color: Color.fromRGBO(198, 241, 213, 1),
-        child: Text(
-          "登 陆",
-          style: Theme
-              .of(context)
-              .primaryTextTheme
-              .headline,
-        ),
-        // 设置按钮圆角
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(45.0)),
-        onPressed: provider.login
+          color: Color.fromRGBO(198, 241, 213, 1),
+          child: Text(
+            "登 陆",
+            style: Theme
+                .of(context)
+                .primaryTextTheme
+                .headline,
+          ),
+          // 设置按钮圆角
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(45.0)),
+          onPressed: model.login
 
         // onPressed: () {
         //   //点击登录按钮，解除焦点，回收键盘
@@ -273,45 +292,32 @@ class LoginWidget extends StatelessWidget{
         ],
       ),
     );
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // 外层添加一个手势，用于点击空白部分，回收键盘
-      body: new GestureDetector(
-        onTap: (){
-          // 点击空白区域，回收键盘
-          print("点击了空白区域");
-          provider.focusNodePassWord.unfocus();
-          provider.focusNodeUserName.unfocus();
-        },
-        child: new ListView(
-          children: <Widget>[
-            new SizedBox(height: 60,),
-            logoImageArea,
-            new SizedBox(height: 50,),
-            inputTextArea,
-            new SizedBox(height: 50,),
-            loginButtonArea,
-            new SizedBox(height: 20,),
-            bottomArea,
-            new SizedBox(height: 30,),
-            thirdLoginArea,
-          ],
-        ),
-      ),
+
+    return  Container(
+        child: model.state == ViewState.Idle ? GestureDetector(
+          onTap: (){
+            // 点击空白区域，回收键盘
+            print("点击了空白区域");
+            model.focusNodePassWord.unfocus();
+            model.focusNodeUserName.unfocus();
+          },
+          child: new ListView(
+            children: <Widget>[
+              new SizedBox(height: 60,),
+              logoImageArea,
+              new SizedBox(height: 50,),
+              inputTextArea,
+              new SizedBox(height: 50,),
+              loginButtonArea,
+              new SizedBox(height: 20,),
+              bottomArea,
+              new SizedBox(height: 30,),
+              thirdLoginArea,
+            ],
+          ),
+        ): Center(
+            child: Text('加载数据中...'))
     );
 
-  }
-
-
-
-  loginSuccess(context){
-    Future.delayed(Duration(milliseconds: 200), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return BottomNavigationWidget();
-        }),
-      );
-    });
   }
 }
