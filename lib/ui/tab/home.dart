@@ -295,7 +295,7 @@ class HomePageWidget extends StatelessWidget{
                       Container(
                         margin: EdgeInsets.only(top: 5.0),
                         child: Text(
-                          "${func["desc"]}",
+                          "${func["desc"]==null?"":func["desc"]}",
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.grey,

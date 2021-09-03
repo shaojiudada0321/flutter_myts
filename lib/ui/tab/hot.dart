@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myts/common/view_state.dart';
+import 'package:flutter_myts/model/user.dart';
 import 'package:flutter_myts/ui/base_view.dart';
 import 'package:flutter_myts/ui/gridview/mock_data.dart';
 import 'package:flutter_myts/ui/gridview/service_item.dart';
+import 'package:flutter_myts/ui/product/hot_product_info.dart';
 import 'package:flutter_myts/viewModel/hot_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +13,8 @@ class HotPageWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return BaseView<HotViewModel>(
-      onModelReady: (model){
-        //加载
+      onModelReady: (model) async {
+        model.initData();
       },
       model: HotViewModel(api: Provider.of(context)),
       builder: (context,model,child) => Scaffold(
@@ -61,14 +63,24 @@ class HotPageWidget extends StatelessWidget{
     /**/
     /* 首页宫格菜单 */
     Widget gridview_menu = Container(
+      margin: EdgeInsets.only(top: 10.0),
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5),
-            top: BorderSide(color: Colors.grey, width: 0.5),
-            left: BorderSide(color: Colors.grey, width: 0.5),
-            right: BorderSide(color: Colors.grey, width: 0.5),
+        border: Border(bottom: BorderSide(color: Color.fromRGBO(250, 250, 250, 1), width: 0.1),
+            top: BorderSide(color: Color.fromRGBO(250, 250, 250, 1), width: 0.1),
+            left: BorderSide(color: Color.fromRGBO(250, 250, 250, 1), width: 0.1),
+            right: BorderSide(color: Color.fromRGBO(250, 250, 250, 1), width: 0.1),
         ),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey,
+              offset: Offset(1.0, 4.0), //阴影y轴偏移量
+              blurRadius: 2, //阴影模糊程度
+              spreadRadius: 0 //阴影扩散程度
+          )
+        ],
+        color: Color.fromRGBO(250, 250, 250, 1)
       ),
       child: GridView.count(
         // //水平子Widget之间间距
@@ -88,30 +100,103 @@ class HotPageWidget extends StatelessWidget{
       )
     );
 
-    // return  Container(
-    //     child: model.state == ViewState.Idle ? GestureDetector(
-    //       onTap: () {
-    //         // 点击空白区域，回收键盘
-    //         print("点击了空白区域");
-    //         //provider.focusNodePassWord.unfocus();
-    //         //provider.focusNodeUserName.unfocus();
-    //       },
-    //       child: new ListView(
-    //         children: <Widget>[
-    //           //new SizedBox(height: 60,),
-    //           /*顶部搜索*/
-    //           Row(mainAxisAlignment: MainAxisAlignment.center,
-    //               children: [
-    //                 Padding(padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0), ),
-    //                 Expanded(child: toptitle_editView(),flex: 1),
-    //               ]
-    //           ),
-    //           gridview_menu,
-    //         ],
-    //       ),
-    //     ): Center(
-    //         child: Text('加载数据中...'))
-    // );
+    /* 热销页产品列表 */
+    Widget product_list = Container(
+        child:Column(
+          children: [
+            new SizedBox(height: 30,),
+            ListView.builder(
+              itemCount: model.funcLists.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                var func = model.funcLists[index];
+                return ListTile(
+                  contentPadding: const EdgeInsets.all(10.0),
+                  isThreeLine: true,//子item的是否为三行
+                  dense: false,
+                  leading: Container(
+                    child: Image.asset(
+                      "${func["image"]}",
+                      fit: BoxFit.cover,
+                    ),
+                    width: 120,
+                    height: 150,
+                    color: Colors.orange,
+                  ),
+                  title: Text(
+                    "${func["name"]}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          "${func["desc"]==null?"":func["desc"]}",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            margin: EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              "${func["Price"]}￥",
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.orange,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            height: 32,
+                          ),
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            margin: EdgeInsets.only(top: 8.0,left: 20.0),
+                            child: Text(
+                              "${func["PreOrder"]}人已预购",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            height: 35,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    //爆款列表点击逻辑处理
+                    model.jump_Product();
+                    //Navigator.of(context).pushNamed('hot_product_info', arguments: User(25, "xuchaodong"));
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //       builder: (context) => ProductWidget(),
+                    //       settings: RouteSettings(
+                    //         arguments: User(25, "xuchaodong"),
+                    //       )
+                    //   ),
+                    // );
+                    print("跳转到详情页");
+                  },
+                );
+              },
+            )
+          ],
+        )
+    );
 
     return Container(
       child: model.state == ViewState.Idle ? GestureDetector(
@@ -120,6 +205,7 @@ class HotPageWidget extends StatelessWidget{
               Padding(padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0), child: toptitle_editView(),),
               //Expanded(child: toptitle_editView(),flex: 1),
               gridview_menu,
+              product_list
             ]
           )
         ): Center(

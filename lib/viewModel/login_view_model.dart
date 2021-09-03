@@ -46,7 +46,7 @@ class LoginViewModel extends BaseModel{
 
       } else {
         /// 返回值为0，请求成功
-        loginSuccess(navigatorKey.currentState.overlay.context);
+        loginSuccess();
       }
     });
   }
@@ -57,10 +57,10 @@ class LoginViewModel extends BaseModel{
     super.dispose();
   }
 
-  loginSuccess(context){
+  loginSuccess(){
     Future.delayed(Duration(microseconds: 0), () {
       Navigator.push(
-        context,
+        navigatorKey.currentState.overlay.context,
         MaterialPageRoute(builder: (context) {
           return BottomNavigationWidget();
         }),

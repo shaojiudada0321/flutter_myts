@@ -57,6 +57,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  fluro:
+    dependency: "direct main"
+    description:
+      name: fluro
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -95,13 +102,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "8.2.0"
-  get_it:
-    dependency: "direct main"
-    description:
-      name: get_it
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.0"
   http:
     dependency: "direct main"
     description:
@@ -158,13 +158,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.3.3"
-  rxdart:
-    dependency: "direct main"
-    description:
-      name: rxdart
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.21.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -235,4 +228,4 @@ packages:
     version: "2.1.0"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=1.17.0"
