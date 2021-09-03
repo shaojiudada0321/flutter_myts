@@ -49,7 +49,7 @@ import 'service_item.dart';
 //   ),
 // ];
 
-/// 服务菜单
+/// 首页宫格菜单
 const List<ServiceItemViewModel> serviceList = [
   ServiceItemViewModel(
     title: '专项体检',
@@ -71,7 +71,7 @@ const List<ServiceItemViewModel> serviceList = [
     title: '健康自测',
     icon: Icon(
       CustomIcons.friedFood,
-      size: 29,
+      size: 25,
       color: Colors.deepOrangeAccent,
     ),
   ),
@@ -79,7 +79,7 @@ const List<ServiceItemViewModel> serviceList = [
     title: '科普视频',
     icon: Icon(
       CustomIcons.sweetmeats,
-      size: 30,
+      size: 25,
       color: Colors.pinkAccent,
     ),
   ),
@@ -87,7 +87,7 @@ const List<ServiceItemViewModel> serviceList = [
     title: '互助通道',
     icon: Icon(
       CustomIcons.xiangCuisine,
-      size: 20,
+      size: 25,
       color: Colors.redAccent,
     ),
   ),
@@ -103,7 +103,7 @@ const List<ServiceItemViewModel> serviceList = [
     title: '影像筛查',
     icon: Icon(
       CustomIcons.motorbike,
-      size: 28,
+      size: 25,
       color: Colors.blueAccent,
     ),
   ),
@@ -116,7 +116,7 @@ const List<ServiceItemViewModel> serviceList = [
     ),
   ),
 ];
-/// 服务菜单
+/// 首页服务菜单
 const List<ServiceItemViewModel> gridview_prevention_List = [
   ServiceItemViewModel(
     title: '结直肠风险早期筛查',
@@ -138,7 +138,7 @@ const List<ServiceItemViewModel> gridview_prevention_List = [
     title: '肝癌风险早期筛查',
     icon: Icon(
       CustomIcons.friedFood,
-      size: 29,
+      size: 25,
       color: Colors.deepOrangeAccent,
     ),
   ),
@@ -146,7 +146,7 @@ const List<ServiceItemViewModel> gridview_prevention_List = [
     title: '胰腺癌风险早期筛查',
     icon: Icon(
       CustomIcons.sweetmeats,
-      size: 30,
+      size: 25,
       color: Colors.pinkAccent,
     ),
   ),
@@ -154,7 +154,7 @@ const List<ServiceItemViewModel> gridview_prevention_List = [
     title: '胃癌风险早期筛查',
     icon: Icon(
       CustomIcons.xiangCuisine,
-      size: 20,
+      size: 25,
       color: Colors.redAccent,
     ),
   ),
@@ -164,6 +164,50 @@ const List<ServiceItemViewModel> gridview_prevention_List = [
       CustomIcons.truck,
       size: 25,
       color: Colors.orange,
+    ),
+  ),
+];
+
+/// 热销页面菜单
+const List<ServiceItemViewModel> hot_gridview_List = [
+  ServiceItemViewModel(
+    title: '新品推荐',
+    icon: Icon(
+      CustomIcons.breakFirst,
+      size: 25,
+      color: Colors.lightBlue,
+    ),
+  ),
+  ServiceItemViewModel(
+    title: '专项检查',
+    icon: Icon(
+      CustomIcons.baozi,
+      size: 25,
+      color: Colors.orangeAccent,
+    ),
+  ),
+  ServiceItemViewModel(
+    title: '居家检测',
+    icon: Icon(
+      CustomIcons.friedFood,
+      size: 25,
+      color: Colors.deepOrangeAccent,
+    ),
+  ),
+  ServiceItemViewModel(
+    title: '影响筛查',
+    icon: Icon(
+      CustomIcons.sweetmeats,
+      size: 25,
+      color: Colors.pinkAccent,
+    ),
+  ),
+  ServiceItemViewModel(
+    title: '私人定制',
+    icon: Icon(
+      CustomIcons.xiangCuisine,
+      size: 25,
+      color: Colors.redAccent,
     ),
   ),
 ];

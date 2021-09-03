@@ -219,7 +219,7 @@ class HomePageWidget extends StatelessWidget{
         )
     );
 
-    /* 首页宫格菜单 */
+    /* 首页宫格项目介绍 */
     Widget gridview_prevention = Container(
         margin: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
@@ -259,40 +259,95 @@ class HomePageWidget extends StatelessWidget{
 
     /* 热门爆款 */
     Widget hot_list = Container(
-        child:ListView.builder(
-          padding: const EdgeInsets.all(15.0),
-          itemCount: model.funcLists.length,
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            var func = model.funcLists[index];
-            return ListTile(
-              contentPadding: const EdgeInsets.all(10.0),
-              title: Text(
-                "${func["name"]}",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
-              ),
-              subtitle: Text(
-                "${func["desc"]}",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.grey,
-                ),
-              ),
-              onTap: () {
-                //爆款列表点击逻辑处理
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) {
-                //     return FirstScreen();
-                //   }),
-                // );
+        child:Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(10.0),
+              alignment: Alignment.centerLeft,
+              child: Text('热门爆款',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            ),
+            ListView.builder(
+              itemCount: model.funcLists.length,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                var func = model.funcLists[index];
+                return ListTile(
+                  contentPadding: const EdgeInsets.all(10.0),
+                  isThreeLine: true,//子item的是否为三行
+                  dense: false,
+                  leading: Image.asset(
+                    "${func["image"]}",
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(
+                    "${func["name"]}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0),
+                        child: Text(
+                          "${func["desc"]}",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            margin: EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              "${func["Price"]}￥",
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.orange,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            height: 32,
+                          ),
+                          Container(
+                            alignment: Alignment.bottomCenter,
+                            margin: EdgeInsets.only(top: 8.0,left: 20.0),
+                            child: Text(
+                              "${func["PreOrder"]}人已预购",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            height: 35,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  onTap: () {
+                    //爆款列表点击逻辑处理
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) {
+                    //     return FirstScreen();
+                    //   }),
+                    // );
+                  },
+                );
               },
-            );
-          },
+            )
+          ],
         )
     );
     return  Container(

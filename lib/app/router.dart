@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_myts/ui/login.dart';
 import 'package:flutter_myts/ui/tab/home.dart';
+import 'package:flutter_myts/ui/tab/hot.dart';
 
 import 'route_paths.dart';
 
@@ -13,6 +14,8 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => LoginWidget());
       case RoutePaths.HOME:
         return MaterialPageRoute(builder: (_) => HomePageWidget());
+      case RoutePaths.HOT:
+        return MaterialPageRoute(builder: (_) => HotPageWidget());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

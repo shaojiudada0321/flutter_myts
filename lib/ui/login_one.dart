@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_myts/app/route_paths.dart';
-import 'package:flutter_myts/viewModel/login_model.dart';
+import 'package:flutter_myts/viewModel/login_view_modelone.dart';
 import 'package:provider/provider.dart';
 
 import 'base_view.dart';

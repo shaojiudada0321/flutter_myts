@@ -20,7 +20,7 @@ class ServiceItem extends StatelessWidget {
             child: Text(
               this.data.title,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 15,
                 color: Color(0xFF333333),
               ),
               textAlign: TextAlign.center,
